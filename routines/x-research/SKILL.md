@@ -9,7 +9,7 @@ description: 在 x.com(Twitter)上就某个关键词/问题做"智能搜索→�
 
 ## 前置(自包含)
 - 全局 `bb-browser` 可用,daemon 连着真实 Chrome(脚本会自动 `daemon start`)。
-- **取数依赖社区 twitter 适配器**(`twitter/search`、`twitter/tweets`):首次使用执行仓库根的 `bash install.sh`,它会运行 `bb-browser site update` 安装社区适配器。
+- **取数依赖社区 twitter 适配器**(`twitter/search`、`twitter/tweets`):首次使用在本 skill 目录执行 `bash ../install.sh`,它会运行 `bb-browser site update` 安装社区适配器。
 - **bb-browser 控制的 Chrome 必须已登录 x.com**(否则取数返回 `login_required` / 所有源报 `No ct0 cookie`)。
 - 取数脚本在本目录 `scripts/x_gather.py`(同目录的 `bb_common.py` 是其依赖)。下文命令默认 **在本 skill 目录下** 运行。
 - 输出目录 `<OUTPUT_DIR>`:默认本目录下 `./output/`。

@@ -9,7 +9,7 @@ description: 每天读 x.com(Twitter)上 AI/人工智能相关的热门帖子(�
 
 ## 前置(自包含)
 - 全局 `bb-browser` 可用,daemon 连着真实 Chrome(脚本会自动 `daemon start`)。
-- **取数依赖社区 twitter 适配器**:首次使用执行仓库根的 `bash install.sh`(内部跑 `bb-browser site update` 安装 `twitter/search|for_you|tweets`)。
+- **取数依赖社区 twitter 适配器**:首次使用在本 skill 目录执行 `bash ../install.sh`(内部跑 `bb-browser site update` 安装 `twitter/search|for_you|tweets`)。
 - bb-browser 控制的 Chrome **必须已登录 x.com**。未登录时取数返回 `{"login_required": true}`(或所有源报 `No ct0 cookie`)—— 此时**不要硬跑**,直接输出"x.com 未登录,请先在受控 Chrome 登录后重试",并结束(不写文件)。
 - 取数脚本 `scripts/x_gather.py`(依赖同目录 `bb_common.py`);出 HTML 用 `scripts/md_to_html.py`(依赖同目录 `report.css` + 系统 `pandoc`)。下文命令默认 **在本 skill 目录下** 运行。
 

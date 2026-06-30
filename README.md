@@ -1,10 +1,22 @@
 # skills — bb-browser 驱动的论坛/社媒每日 routine
 
-把若干网站(NodeSeek / x.com / chiphell)用 **[bb-browser](https://github.com/epiral/bb-browser)** 「CLI 化」,封装成一组可被 Claude Code 调用、也可定时执行的 **skill**。每个 skill 一个目录,**自包含**(带上自己依赖的脚本与 bb-browser 适配器),`bash install.sh` 装好适配器即可用。
+我的 Claude Code skill 合集,按**类别**组织(每个类别一个母目录,未来会加入其它类别)。当前类别 `routines/`:把若干网站(NodeSeek / x.com / chiphell)用 **[bb-browser](https://github.com/epiral/bb-browser)** 「CLI 化」,封装成一组可被 Claude Code 调用、也可定时执行的每日 routine **skill**。每个 skill 一个子目录,**自包含**(带上自己依赖的脚本与 bb-browser 适配器),`bash routines/install.sh` 装好适配器即可用。
 
 > ⚠️ **这些 skill 驱动你本机的真实 Chrome**。bb-browser 经 CDP 复用 Chrome 已登录的会话(因此能过 Cloudflare/WAF、用你的登录态),所有动作都发生在**你自己的机器、你自己的账号**下。请在理解每个 skill 行为后再用,尤其是会**发帖**的 `x-reply-draft`。
 
-## 这些 skill
+## 仓库结构
+
+```
+skills/
+├── routines/                  # 类别①:bb-browser 驱动的论坛/社媒每日 routine(本批 7 个)
+│   ├── install.sh             #   一键装适配器 + 拉社区 twitter 取数适配器
+│   ├── nodeseek-daily/  nodeseek-review/
+│   ├── x-ai-daily/  x-reply-draft/  x-research/
+│   └── chiphell-daily/  chiphell-rescue/
+└── (未来:其它类别的 skill 作为同级母目录加入)
+```
+
+## 这些 skill(`routines/` 类别)
 
 | skill | 做什么 | 触发示例 | 登录 | 是否写操作 |
 |---|---|---|---|---|
@@ -27,10 +39,10 @@
 
 ```bash
 git clone <this-repo> skills && cd skills
-bash install.sh          # 装适配器到 ~/.bb-browser/sites/ + 拉社区 twitter 取数适配器
+bash routines/install.sh   # 装适配器到 ~/.bb-browser/sites/ + 拉社区 twitter 取数适配器
 ```
 
-把需要的 skill 目录软链或复制到 `~/.claude/skills/`(全局)或某项目的 `.claude/skills/`(项目级),Claude Code 即可按 description 自动触发;也可在自带 routines / 定时任务里按各 SKILL.md 重建。
+把需要的 skill 目录(如 `routines/nodeseek-daily`)软链或复制到 `~/.claude/skills/`(全局)或某项目的 `.claude/skills/`(项目级),Claude Code 即可按 description 自动触发;也可在自带 routines / 定时任务里按各 SKILL.md 重建。
 
 ## 配置(占位符与环境变量)
 

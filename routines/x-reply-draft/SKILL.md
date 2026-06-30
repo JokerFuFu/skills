@@ -16,7 +16,7 @@ description: 在 x.com 上找当下值得回复的 AI 热帖(关注的大V + 高
 
 ## 前置(自包含)
 - 全局 `bb-browser` 可用,daemon 连真实 Chrome。
-- **取数依赖社区 twitter 适配器、发帖用本仓库自带的护栏适配器 `twitter/reply`**:首次使用执行仓库根的 `bash install.sh`(它跑 `bb-browser site update` 装社区取数适配器,并把本目录 `adapters/twitter/reply.js` 复制到 `~/.bb-browser/sites/twitter/` 覆盖成护栏版)。
+- **取数依赖社区 twitter 适配器、发帖用本仓库自带的护栏适配器 `twitter/reply`**:首次使用在本 skill 目录执行 `bash ../install.sh`(它跑 `bb-browser site update` 装社区取数适配器,并把本目录 `adapters/twitter/reply.js` 复制到 `~/.bb-browser/sites/twitter/` 覆盖成护栏版)。
 - bb-browser 控的 Chrome 已登录 x.com。未登录→上报"需登录 x.com"并结束。
 - 取数脚本 `scripts/x_gather.py`、发帖网关 `scripts/x_post.py`(都依赖同目录 `bb_common.py`)。配置/日志在本目录 `data/`(`x_reply_config.json` / `x_reply_log.json`)。下文命令默认 **在本 skill 目录下** 运行。
 - **首次默认 `mode=draft`(只起草不发)**;人工验证草稿质量满意后,再把 `data/x_reply_config.json` 的 `mode` 改成 `auto` 才会真发。

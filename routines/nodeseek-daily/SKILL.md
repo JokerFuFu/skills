@@ -9,7 +9,7 @@ description: 每天读 NodeSeek 论坛热门帖子,产出一份中文 Markdown �
 
 ## 前置(自包含)
 - 全局 `bb-browser` 可用,daemon 连着真实 Chrome(脚本会自动 `daemon start`)。bb-browser 通过 CDP 复用本机已登录的真实 Chrome,因此能过 Cloudflare/WAF。
-- **首次使用先装适配器**:在本 skill 目录执行 `bash ../install.sh`(或仓库根的 `install.sh`),把 `adapters/nodeseek/` 复制到 `~/.bb-browser/sites/nodeseek/`。
+- **首次使用先装适配器**:在本 skill 目录执行 `bash ../install.sh`,把 `adapters/nodeseek/` 复制到 `~/.bb-browser/sites/nodeseek/`。
 - 取数脚本在本目录 `scripts/nsk_gather.py`(无需登录)。下文命令默认 **在本 skill 目录下** 运行。
 - 输出目录 `<OUTPUT_DIR>`:默认本目录下 `./output/`,可自行改成你的笔记库路径。
 

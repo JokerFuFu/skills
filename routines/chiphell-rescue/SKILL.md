@@ -10,7 +10,7 @@ description: chiphell「邪恶值回血」专职流程——当账号邪恶指�
 > 背景:chiphell 部分板块用「邪恶值/邪恶指数(XE)」当下注货币。XE 变负 = **亡灵态**,禁止下注(明知亡灵反复下注会被禁言)。亡灵期的合规回血路径 = 被别人评分/捞 —— 靠在讨论帖下回帖求捞 + 顶自己的求捞帖,不是下注。
 
 ## 配置(自包含,必填环境变量)
-首次使用先装适配器:仓库根执行 `bash install.sh`,把 `adapters/chiphell/` 复制到 `~/.bb-browser/sites/chiphell/`。然后设置:
+首次使用先装适配器:在本 skill 目录执行 `bash ../install.sh`,把 `adapters/chiphell/` 复制到 `~/.bb-browser/sites/chiphell/`。然后设置:
 - `CHIPHELL_USERNAME` — 你的 chiphell 登录用户名(用于判重"我是否已回过此帖")。
 - `CHIPHELL_SELF_RESCUE` — 你自己的求捞帖 tid(纯数字),供节流自顶。
 - `CHIPHELL_FORBIDDEN` — 禁区帖 tid 列表(逗号分隔),如苦工帖/已关闭福利帖,适配器会从候选里剔除。

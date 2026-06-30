@@ -1,5 +1,5 @@
 # 运行产物 / 个人数据，不入库
-*/output/
+output/
 **/data/*_log.json
 **/data/chiphell_farm_log.json
 
