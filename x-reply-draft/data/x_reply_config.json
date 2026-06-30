@@ -1,0 +1,8 @@
+{
+  "mode": "draft",
+  "daily_cap": 3,
+  "per_account_cooldown_days": 3,
+  "min_gap_minutes": 45,
+  "jitter_seconds": [5, 40],
+  "_note": "mode=draft 只起草不发；mode=auto 才会真发(受 daily_cap/per_account_cooldown_days/min_gap_minutes 强制约束)。务必先 draft 跑顺并人工验证一条回帖质量后，再切 auto。"
+}
