@@ -7,6 +7,7 @@
 | 类别 | 内容 | 数量 |
 |---|---|---|
 | [**routines/**](routines/) | bb-browser 驱动的论坛/社媒每日 routine(NodeSeek / x.com / chiphell):热帖日报、口碑评价、AI 日报、回帖、求捞等 | 7 |
+| [**network/**](network/) | 网络 / 代理基建:海外主机代理节点部署(sing-box · Reality / Hysteria2 / Argo CDN)、主机加固、客户端导入、订阅聚合、排障 | 1 |
 | *(更多类别陆续加入)* | | |
 
 每个类别目录下都有自己的 `README.md`,说明该类别的依赖、安装与用法——具体看对应类别。
