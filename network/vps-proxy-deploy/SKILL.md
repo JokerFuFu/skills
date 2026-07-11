@@ -1,11 +1,11 @@
 ---
 name: vps-proxy-deploy
-description: 在海外 VPS 上从零部署科学上网/翻墙代理节点的完整手册 —— sing-box 内核 + VLESS+Reality(TCP 443)、Hysteria2(UDP)、Cloudflare Argo 隧道 CDN 中转(隐藏源站 IP),外加 VPS 系统加固、OpenClash/Clash/Shadowrocket 客户端导入、Sub-Store 订阅聚合。当用户提到"配代理节点、搭 VPS 翻墙、装 sing-box、Reality/Hysteria2/hy2、Argo/cloudflared 隧道、加固服务器、节点连不上/被墙/握手失败、客户端导入、订阅聚合"等场景时都应使用本 skill,即使没明说"部署节点"也要主动触发。这是本人真实生产架构(aethercloud HK/美东、racknerd、Nosla 等多台 VPS)沉淀的可直接照做的实操指南。
+description: 在海外 VPS 上从零部署科学上网/翻墙代理节点的完整手册 —— sing-box 内核 + VLESS+Reality(TCP 443)、Hysteria2(UDP)、Cloudflare Argo 隧道 CDN 中转(隐藏源站 IP),外加 VPS 系统加固、OpenClash/Clash/Shadowrocket 客户端导入、Sub-Store 订阅聚合。当用户提到"配代理节点、搭 VPS 翻墙、装 sing-box、Reality/Hysteria2/hy2、Argo/cloudflared 隧道、加固服务器、节点连不上/被墙/握手失败、客户端导入、订阅聚合"等场景时都应使用本 skill,即使没明说"部署节点"也要主动触发。这是一份生产级、可直接照做的多协议节点部署实操指南。
 ---
 
 # VPS 代理节点部署手册
 
-在一台海外 VPS 上部署高抗封锁、高速、可隐藏源站 IP 的翻墙代理节点。本手册是真实多机生产环境(香港 / 美西 / 美东多台 VPS)沉淀的实操流程,拿来即可照做。
+在一台海外 VPS 上部署高抗封锁、高速、可隐藏源站 IP 的翻墙代理节点。本手册是多机部署实践沉淀的实操流程,拿来即可照做。
 
 > **凭据约定**:本仓库(私有)里所有 `<占位符>`(UUID、Reality 公私钥、shortId、Hysteria2 口令、CF API Token、连接器 Token、SSH 私钥路径)都是占位,**真实密钥永远不写进任何 git 仓库**,按文中命令现场生成、只留在服务器 `/etc/sing-box/` 和本地。
 
@@ -19,7 +19,7 @@ description: 在海外 VPS 上从零部署科学上网/翻墙代理节点的完�
 | **Hysteria2** | QUIC / UDP | 8882 | 主打速度 | 弱网、移动网络、大带宽下载;UDP 被 QoS 时的补充 |
 | **VLESS + WS + Argo CDN** | TCP over CF | 443(经 CF) | 保底 + 隐藏 IP | 源站 IP 被针对性干扰时的保底通道;客户端连 CF 边缘,VPS 真实 IP 全程不暴露 |
 
-**选路经验(极重要,踩过 2 小时坑)**:并非所有 VPS 都能跑通 Reality TCP。**某些线路(实测:中国→美东 Newark/ONEMAN AS212890)会干扰 Reality 的 TLS 握手**,同样的配置在香港 / 美西却完全正常 —— 这是**路径问题不是配置问题**。这种机器 TCP 直连跑不通就**只开 CDN 中转**(经 Cloudflare 边缘绕开被干扰的直连路径)。部署后务必按 [references/troubleshooting.md](references/troubleshooting.md) 的方法逐协议验证出口。
+**选路经验(极重要,踩过 2 小时坑)**:并非所有 VPS 都能跑通 Reality TCP。**部分线路(实测:某些「中国 → 美东」线路)会干扰 Reality 的 TLS 握手**,同样的配置换到香港 / 美西等线路却完全正常 —— 这是**路径问题不是配置问题**。这种机器 TCP 直连跑不通就**只开 CDN 中转**(经 Cloudflare 边缘绕开被干扰的直连路径)。部署后务必按 [references/troubleshooting.md](references/troubleshooting.md) 的方法逐协议验证出口。
 
 ## 标准部署流程(6 步)
 
