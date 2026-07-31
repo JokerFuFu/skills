@@ -1,0 +1,14 @@
+{
+  "_comment": "热帖榜『天天在榜』常青/连载帖过滤配置示例。复制成同目录 chiphell_hot_filter.json 后按需改(运行状态在同目录 chiphell_hot_history.json,脚本自动维护)。三条判据命中任一即从热榜剔除。",
+
+  "_max_age_days_comment": "(1) 建帖超过 N 天就剔除。水区『今日热点』多为 ≤4 天的新帖,而连载/打卡类常青帖往往 ≥20 天,14 天能干净分开。硬件板若想保留长周期讨论帖,把这个值调大。",
+  "max_age_days": 14,
+
+  "_manual_block_comment": "(2) 手动永久屏蔽的帖 id(如常年置顶的打卡贴、版务永久帖)。填你自己论坛里那几个『万年在榜』的 tid。",
+  "manual_block": [],
+
+  "_persist_comment": "(3) 连续霸榜自动识别:近 persist_window_days 天里,进过『按回复数 top_k_track』榜 ≥ persist_days 天的帖,自动判为天天在榜并屏蔽。新出现的连载帖几天内会被自动收进来,不用手动加。",
+  "persist_days": 3,
+  "persist_window_days": 7,
+  "top_k_track": 15
+}

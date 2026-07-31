@@ -1,0 +1,3 @@
+# 只提交 *.example.json;你自己的配置与运行状态一律不入库(可能含个人关注词/帖 id)
+*.json
+!*.example.json

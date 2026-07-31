@@ -1,0 +1,23 @@
+{
+  "_comment": "出售区关注配置示例。复制成同目录 chiphell_sale_watch.json 后按需改。命中会进日报;若 skill 接了推送通道,新命中还会推一条通知。去重状态在同目录 chiphell_sale_seen.json(同一帖只报一次)。boards: 要扫的出售板块 fid。",
+
+  "_keywords_comment": "【物品关注】想买的具体东西,标题子串匹配、不区分大小写。命中会通知 +(auto_reply 开时)自动回帖排队。留空=不做物品关注。",
+  "keywords": ["显示器", "4090"],
+
+  "_regions_comment": "【地区关注】只想看看某地在卖什么,匹配标题前缀的地区标记([北京]/【北京】,也覆盖 [北京朝阳])。命中【只通知+进日报,绝不自动回帖】——地区帖卖的是各种东西、未必是你想要的,自动回帖=骚扰卖家。留空=不做地区关注。",
+  "regions": ["北京"],
+
+  "boards": [
+    {"fid": "26", "name": "玩家出售发布区"}
+  ],
+  "pages": 3,
+
+  "_auto_reply_comment": "auto_reply=true 时,对新命中的出售帖自动回一句 auto_reply_text 排队——这是【在你真实账号上对外发帖】,默认 false,想用请自己确认合规后再开。【只对 match_type=item 的物品命中回帖;地区(region)命中一律只通知不回帖】。其余护栏由 SKILL 执行:只回新命中、每帖只回一次(以 chiphell/thread already_replied 为权威)、跳过锁帖/标题含已出已售SOLD、每轮最多 auto_reply_max_per_run 条、连发间隔 20-30s(Discuz 第 4 帖必触发验证码)。措辞建议用软问询,即便帖已售发出去也不失礼。",
+  "auto_reply": false,
+  "auto_reply_text": "有意，排队，联系看看",
+  "auto_reply_max_per_run": 2,
+
+  "_push_comment": "通知上限:地区关注每天可能命中不少,push_max_region 限制单条通知里最多列几条地区命中,超出只写『另 N 条』,避免刷屏;物品命中不受限、永远全列。ignore_ids: 永不关注的帖(如版块模板/示例帖)。",
+  "push_max_region": 5,
+  "ignore_ids": []
+}

@@ -59,6 +59,15 @@ async function(args) {
         const title = a.textContent.replace(/\s+/g, ' ').trim();
         const authorEl = tb.querySelector('td.by cite a, .by cite a');
         const replyEl = tb.querySelector('td.num a.xi2, .num a.xi2');
+        // 建帖日期(作者列 em/span,或整列文本里的 YYYY-M-D[ HH:MM]);供热榜按帖龄过滤常青帖。附加字段,不影响既有消费方。
+        const byTd = tb.querySelector('td.by');
+        let created = null;
+        if (byTd) {
+          const sp = byTd.querySelector('em span, em');
+          const rawDate = (sp && (sp.getAttribute('title') || sp.textContent)) || byTd.textContent || '';
+          const dm = rawDate.match(/(\d{4})-(\d{1,2})-(\d{1,2})(?:\s+(\d{1,2}):(\d{2}))?/);
+          if (dm) created = dm[0];
+        }
         const sticky = /^stickthread_/.test(tb.id);
         let kind = FORBIDDEN.has(id) ? 'forbidden'
           : (id === SELF_RESCUE ? 'self_rescue' : classify(title, sticky));
@@ -69,6 +78,7 @@ async function(args) {
           url: `https://www.chiphell.com/thread-${id}-1-1.html`,
           author: authorEl ? authorEl.textContent.trim() : null,
           replies: replyEl ? parseInt(replyEl.textContent.trim(), 10) : null,
+          created,
           sticky, announce, kind
         });
       }
