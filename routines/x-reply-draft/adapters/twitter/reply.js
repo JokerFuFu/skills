@@ -32,6 +32,8 @@ async function(args) {
   }
 
   // —— 自包含 helper（私有目录适配器不会被注入社区 _helper.js）——
+  // 下面提取 GraphQL queryId 与 x-client-transaction-id 生成器的做法，派生自
+  // epiral/bb-sites 的 twitter/_helper.js：https://github.com/epiral/bb-sites
   const _getReq = () => {
     let req;
     window.webpackChunk_twitter_responsive_web.push(

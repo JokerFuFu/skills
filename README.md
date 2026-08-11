@@ -37,6 +37,12 @@ ln -s "$PWD/routines/nodeseek-daily" /path/to/project/.claude/skills/nodeseek-da
 
 部分 skill 需要额外依赖或一次性安装(如 `routines/` 里的 bb-browser 适配器)——按该**类别 README** 的说明做。
 
+## 上游与致谢
+
+- **[epiral/bb-browser](https://github.com/epiral/bb-browser)**(MIT)——`routines/` 下所有 skill 的底座:经 CDP 驱动本机真实 Chrome、复用登录态取数。本仓库不含它的代码,按 npm 包安装使用。
+- **[epiral/bb-sites](https://github.com/epiral/bb-sites)**——bb-browser 的社区适配器库。`routines/x-reply-draft/adapters/twitter/reply.js` 里「从 X 前端 bundle 提取 GraphQL queryId 与 `x-client-transaction-id` 生成器」那部分 helper 逻辑派生自该库的 `twitter/_helper.js`;其余发帖逻辑为本仓库自行实现。
+- 本仓库自带的 `nodeseek/`、`chiphell/` 适配器与全部 `scripts/` 为原创(社区库中没有这两个站点)。
+
 ---
 
 *个人自用,按现状提供。涉及账号/自动化的 skill 请先读懂其行为、确认合规后再启用。*
