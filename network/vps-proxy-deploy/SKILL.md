@@ -32,13 +32,20 @@ description: 在海外 VPS 上从零部署科学上网/翻墙代理节点的完�
 - 装 `fail2ban`、校准 NTP、设时区 `Asia/Shanghai`、开 BBR 拥塞控制。
 
 ### 第 2 步:装 sing-box(版本是生死线)
-**必须用 `sing-box 1.14.0-alpha.29`**,不能用官方脚本默认装的 1.13.x。
-- 原因:1.13.x 的 Reality 实现与 mihomo(Clash.Meta)alpha 内核**100% 不兼容**,客户端日志会刷 `REALITY: processed invalid connection`,**换密钥也没用**,纯版本问题。
-- **生成密钥也必须用 1.14 的二进制**(不同版本密钥格式/曲线处理有别)。
+**服务端 sing-box 版本必须与客户端内核成对**,交叉就会刷 `REALITY: processed invalid connection`(换密钥也没用):
+
+| 服务端 sing-box | 配套客户端内核 |
+|---|---|
+| `1.13.x` | mihomo / Clash.Meta **正式版**(如 1.19.x) |
+| `1.14.0-alpha.x` | **alpha 内核** |
+
+先确定你客户端跑的是哪种内核(OpenClash 默认是正式版),再选服务端版本 —— 别无脑装最新。
+- **生成密钥必须用与服务端同版本的二进制**(不同版本密钥格式/曲线处理有别)。
 - 装法与服务配置见 [references/singbox-install.md](references/singbox-install.md)。**关键坑**:systemd unit 里**去掉 `User=sing-box` 改用 root 跑**,否则起不来报 `status=217/USER`。
 
 ### 第 3 步:配 VLESS + Reality(主力,TCP 443)
-见 [references/reality.md](references/reality.md)。单文件 `/etc/sing-box/config.json`,`dest`/`server_name` 借用一个真实可达的大厂站点(`www.microsoft.com`、`www.apple.com` 等)。
+见 [references/reality.md](references/reality.md)。单文件 `/etc/sing-box/config.json`,`dest`/`server_name` 借用一个真实可达的大厂站点 —— **首选 `www.apple.com`**。
+⚠️ **不要用 `www.microsoft.com`**:实测 25% 握手失败率,且症状伪装成"版本/密钥问题",极难排查。
 
 ### 第 4 步:配 Hysteria2(速度,UDP)
 见 [references/hysteria2.md](references/hysteria2.md)。与 Reality 共用同一份 config.json,加一个 inbound。UDP 端口记得在 `ufw` 放行。

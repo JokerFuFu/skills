@@ -1,9 +1,29 @@
 # 排障清单(真实踩坑)
 
 ## 1. Reality 连不上 / 日志刷 `REALITY: processed invalid connection`
-**首因:sing-box 版本不对。** 官方脚本默认装 1.13.x,其 Reality 与 mihomo/Clash.Meta alpha 内核 100% 不兼容,**换 UUID/密钥都没用**。
-- **修**:换 `sing-box 1.14.0-alpha.29`(见 singbox-install.md),**生成密钥也用 1.14 二进制**。
-- 版本对了还不通 → 看第 2 条(线路干扰)。
+这个报错有三个不同根因,**按下面的顺序查** —— 版本问题显眼、握手目标问题隐蔽,先查隐蔽的。
+
+**判定前提**:如果 hysteria2 / CDN 中转同时是通的,说明机器、防火墙、UUID 都没问题,
+问题一定在 Reality 这一层的三要素里:握手目标、内核版本配对、密钥。
+
+### 1a. 握手目标选了 `www.microsoft.com`(最容易漏掉)
+实测 12 次失败 3 次(25%)。密钥/short_id/UUID 全对也照样刷 invalid connection。
+- **修**:换 `www.apple.com`。服务端 `reality.handshake.server` + `tls.server_name`、
+  客户端 `servername`,**三处一起改**;顺手用当前版本二进制**重新生成 keypair**并同步客户端 `public-key`。
+
+### 1b. 服务端与客户端内核版本配对错了
+两者要成对,**不能交叉**:
+
+| 服务端 sing-box | 配套客户端内核 |
+|---|---|
+| `1.13.x` | mihomo / Clash.Meta **正式版**(如 1.19.x) |
+| `1.14.0-alpha.x` | **alpha 内核** |
+
+症状与 1a 完全一样(换 UUID/密钥都没用),所以两条要一起排除。
+**生成密钥必须用与服务端同版本的二进制。**
+
+### 1c. 都对了还不通
+→ 看第 2 条(线路干扰)。
 
 ## 2. 同样配置,某台机 Reality TCP 通、某台不通
 这是**线路/路径问题,不是配置问题**。实测:**某些「中国 → 美东」线路会干扰 Reality 的 TLS 握手**,而香港、美西等线路同构配置完全正常。

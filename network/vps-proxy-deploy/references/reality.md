@@ -3,8 +3,17 @@
 抗封锁主力。借用一个真实大厂 HTTPS 站点的 TLS 指纹做伪装,**不需要自己的域名、不需要证书**,主动探测者看到的就是在访问那个大厂站点。
 
 ## 选 `dest` / `server_name`(伪装目标)
-选一个**在该 VPS 上能正常 443 访问、且支持 TLS1.3 + H2** 的境外大站。常用:
-- `www.microsoft.com` / `www.apple.com` / `www.cloudflare.com` / `www.amazon.com`
+选一个**在该 VPS 上能正常 443 访问、且支持 TLS1.3 + H2** 的境外大站。
+
+### ⚠️ 首选 `www.apple.com`,不要用 `www.apple.com`
+实测数据(同一批机器、同构配置):拿 `www.apple.com` 作握手目标时 **12 次连接失败 3 次
+(25% 失败率)**,表现为客户端延迟测试报 error、服务端刷 `REALITY: processed invalid connection`;
+换成 `www.apple.com` 后一次打通、失败率归零。
+
+这个坑极其隐蔽 —— 密钥、short_id、UUID 全都正确,hysteria2 和 CDN 中转同时正常,
+唯独 Reality 不通,很容易误判成版本或密钥问题(见 troubleshooting.md 第 1 条)。
+
+推荐顺序:`www.apple.com` > `www.cloudflare.com` > `www.amazon.com`。
 
 要求:目标站与你 VPS 的地理/网络"看起来合理",且稳定。别选国内站或会被墙的站。
 
@@ -23,11 +32,11 @@
       ],
       "tls": {
         "enabled": true,
-        "server_name": "www.microsoft.com",
+        "server_name": "www.apple.com",
         "reality": {
           "enabled": true,
           "handshake": {
-            "server": "www.microsoft.com",
+            "server": "www.apple.com",
             "server_port": 443
           },
           "private_key": "<REALITY_PRIVATE_KEY>",
@@ -54,7 +63,7 @@
   tls: true
   udp: true
   flow: xtls-rprx-vision
-  servername: www.microsoft.com     # = 服务端 server_name
+  servername: www.apple.com     # = 服务端 server_name
   reality-opts:
     public-key: <REALITY_PUBLIC_KEY>  # = generate 出的 PublicKey
     short-id: <SHORT_ID>
@@ -64,7 +73,7 @@
 ## 分享链接(VLESS URI,给 Shadowrocket / v2ray 系)
 
 ```
-vless://<UUID>@<VPS_IP>:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.microsoft.com&fp=chrome&pbk=<REALITY_PUBLIC_KEY>&sid=<SHORT_ID>&type=tcp#我的节点-Reality
+vless://<UUID>@<VPS_IP>:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.apple.com&fp=chrome&pbk=<REALITY_PUBLIC_KEY>&sid=<SHORT_ID>&type=tcp#我的节点-Reality
 ```
 
 ## 验证
